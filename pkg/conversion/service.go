@@ -28,7 +28,7 @@ func ConvertToService(deployment *appsv1.Deployment) (*v1alpha1.Service, error) 
 	}
 
 	if err := rev.Validate(context.Background()); err != nil {
-		return nil, errors.Wrap(err, "Deployment does not qualify as a Revision")
+		return nil, errors.Wrap(err, "deployment does not qualify as a revision")
 	}
 
 	// construct Knative Service
