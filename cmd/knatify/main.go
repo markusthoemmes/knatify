@@ -42,6 +42,7 @@ func main() {
 		routeName        string
 		deploymentName   string
 		proxyServiceName string = "istio-ingressgateway-proxy"
+		rolloutTime      time.Duration
 
 		// TODO: Do not hardcode these, read them from Knative config.
 		istioNamespace   string = "istio-system"
@@ -51,6 +52,7 @@ func main() {
 	flag.StringVar(&namespace, "namespace", namespaceCfg, "")
 	flag.StringVar(&routeName, "route", "", "")
 	flag.StringVar(&deploymentName, "deployment", "", "")
+	flag.DurationVar(&rolloutTime, "rolloutTime", 30*time.Second, "")
 	flag.Parse()
 
 	kube := kubernetes.NewForConfigOrDie(clientCfg)
@@ -144,13 +146,21 @@ func main() {
 	}).Wait(ksvc.Name, 10*time.Minute, ioutil.Discard)
 	failIfError(err)
 
-	// Cutting over
-	fmt.Printf("Cutting over from deployment '%s' to Knative Service '%s' ...", deploymentName, ksvc.Name)
-	for i := 0; i <= 10; i++ {
-		weight := int32(i * 10)
+	// Rolling over
+	fmt.Printf("Rolling over from deployment '%s' to Knative Service '%s' ...", deploymentName, ksvc.Name)
+
+	const updateInterval = 3 * time.Second
+	steps := int(rolloutTime.Nanoseconds() / updateInterval.Nanoseconds())
+	perStepIncrease := 100 / steps
+	for i := 0; i <= steps; i++ {
+		weight := int32(i * perStepIncrease)
+		// Force 100 on the last step, should the calculation be lossy.
+		if i == steps {
+			weight = 100
+		}
 		oldWeight := 100 - weight
 
-		fmt.Printf("\rCutting over from deployment '%s' to Knative Service '%s' ... %d%% ... ", deploymentName, ksvc.Name, weight)
+		fmt.Printf("\rRolling over from deployment '%s' to Knative Service '%s' ... %d%% ... ", deploymentName, ksvc.Name, weight)
 
 		route.Spec.To.Weight = &oldWeight
 
@@ -165,7 +175,10 @@ func main() {
 		if err != nil {
 			break
 		}
-		time.Sleep(2 * time.Second)
+
+		if i < steps {
+			time.Sleep(updateInterval)
+		}
 	}
 	failIfError(err)
 
