@@ -146,6 +146,17 @@ func main() {
 	}).Wait(ksvc.Name, 10*time.Minute, ioutil.Discard)
 	failIfError(err)
 
+	fmt.Printf("Validating Knative Service host and route host ... ")
+	ksvc, err = knServices.Get(ksvc.Name, metav1.GetOptions{})
+	if err != nil {
+		fail(err)
+	}
+	if serviceHost, routeHost := ksvc.Status.URL.Host, route.Status.Ingress[0].Host; serviceHost != routeHost {
+		fail(fmt.Errorf("host of Knative Service '%s' (%s) does not match that of the route '%s' (%s)",
+			ksvc.Name, serviceHost, routeName, routeHost))
+	}
+	ok()
+
 	// Rolling over
 	fmt.Printf("Rolling over from deployment '%s' to Knative Service '%s' ...", deploymentName, ksvc.Name)
 
