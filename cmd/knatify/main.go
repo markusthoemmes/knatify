@@ -127,7 +127,7 @@ func main() {
 		}
 		ok()
 	} else {
-		fmt.Println("EXISTED")
+		color.Yellow("EXISTED")
 	}
 
 	// Conversion
