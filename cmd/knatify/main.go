@@ -29,12 +29,12 @@ func main() {
 	config := clientcmd.NewNonInteractiveDeferredLoadingClientConfig(clientcmd.NewDefaultClientConfigLoadingRules(), &clientcmd.ConfigOverrides{})
 	clientCfg, err := config.ClientConfig()
 	if err != nil {
-		panic(err.Error())
+		fail(err)
 	}
 
 	namespaceCfg, _, err := config.Namespace()
 	if err != nil {
-		panic(err.Error())
+		fail(err)
 	}
 
 	var (
