@@ -16,6 +16,7 @@ import (
 	route_v1_api "github.com/openshift/api/route/v1"
 	route "github.com/openshift/client-go/route/clientset/versioned/typed/route/v1"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/util/intstr"
 
 	corev1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -83,33 +84,24 @@ func main() {
 			fail(err)
 		}
 
-		servicePorts := istioService.Spec.Ports
-		for i, port := range servicePorts {
-			port.NodePort = 0
-			servicePorts[i] = port
-		}
 		proxyService := &corev1.Service{
 			ObjectMeta: metav1.ObjectMeta{
 				Namespace: namespace,
 				Name:      proxyServiceName,
 			},
 			Spec: corev1.ServiceSpec{
-				Ports: servicePorts,
+				Ports: []corev1.ServicePort{{
+					Name:       "http2",
+					Port:       80,
+					Protocol:   "TCP",
+					TargetPort: intstr.FromInt(80),
+				}},
 			},
 		}
 
 		_, err = k8sServices.Create(proxyService)
 		if err != nil {
 			fail(err)
-		}
-
-		endpointPorts := make([]corev1.EndpointPort, len(servicePorts))
-		for i, port := range servicePorts {
-			endpointPorts[i] = corev1.EndpointPort{
-				Name:     port.Name,
-				Port:     port.Port,
-				Protocol: port.Protocol,
-			}
 		}
 		proxyEndpoints := &corev1.Endpoints{
 			ObjectMeta: metav1.ObjectMeta{
@@ -120,7 +112,11 @@ func main() {
 				Addresses: []corev1.EndpointAddress{{
 					IP: istioService.Spec.ClusterIP,
 				}},
-				Ports: endpointPorts,
+				Ports: []corev1.EndpointPort{{
+					Name:     "http2",
+					Port:     80,
+					Protocol: "TCP",
+				}},
 			}},
 		}
 		_, err = endpoints.Create(proxyEndpoints)
@@ -169,7 +165,7 @@ func main() {
 		if err != nil {
 			break
 		}
-		time.Sleep(5 * time.Second)
+		time.Sleep(10 * time.Second)
 	}
 	failIfError(err)
 
