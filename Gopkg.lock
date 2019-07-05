@@ -18,6 +18,14 @@
   version = "v4.2.0"
 
 [[projects]]
+  digest = "1:938a2672d6ebbb7f7bc63eee3e4b9464c16ffcf77ec8913d3edbf32b4e3984dd"
+  name = "github.com/fatih/color"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "570b54cabe6b8eb0bc2dfce68d964677d63b5260"
+  version = "v1.5.0"
+
+[[projects]]
   digest = "1:2cd7915ab26ede7d95b8749e6b1f933f1c6d5398030684e6505940a10f31cfda"
   name = "github.com/ghodss/yaml"
   packages = ["."]
@@ -129,6 +137,14 @@
   version = "v0.5.1"
 
 [[projects]]
+  digest = "1:a0cefd27d12712af4b5018dc7046f245e1e3b5760e2e848c30b171b570708f9b"
+  name = "github.com/imdario/mergo"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "7c29201646fa3de8506f701213473dd407f19646"
+  version = "v0.3.7"
+
+[[projects]]
   digest = "1:f5a2051c55d05548d2d4fd23d244027b59fbd943217df8aa3b5e170ac2fd6e1b"
   name = "github.com/json-iterator/go"
   packages = ["."]
@@ -149,6 +165,14 @@
 
 [[projects]]
   branch = "master"
+  digest = "1:b098a7ce40cdfa2fa28c292a082ff9a2b1e8c621a5ec8240516b4ceeccfe6047"
+  name = "github.com/knative/client"
+  packages = ["pkg/wait"]
+  pruneopts = "UT"
+  revision = "2db1195b3f2141fc3729706378f2601ab5d16511"
+
+[[projects]]
+  branch = "master"
   digest = "1:7c09eea37be11f3289671235b9722c729b56432a79f63cb9fd0554a7725213c4"
   name = "github.com/knative/pkg"
   packages = [
@@ -165,16 +189,19 @@
   revision = "7b196cff4669dbd6d31b83bdeb72fbaafd7f8993"
 
 [[projects]]
-  digest = "1:1e28eb446882bfac6eb4aaf62b51fccbc31de118e8452a3dd59850f3d5a9bdb8"
+  digest = "1:7c13d4627bc1d5c56a86aeb6756d16f3a1650681dc9fab48fde356bf8abda9a4"
   name = "github.com/knative/serving"
   packages = [
     "pkg/apis/autoscaling",
+    "pkg/apis/autoscaling/v1alpha1",
     "pkg/apis/config",
     "pkg/apis/networking",
     "pkg/apis/networking/v1alpha1",
     "pkg/apis/serving",
     "pkg/apis/serving/v1alpha1",
     "pkg/apis/serving/v1beta1",
+    "pkg/client/clientset/versioned/scheme",
+    "pkg/client/clientset/versioned/typed/serving/v1alpha1",
   ]
   pruneopts = "UT"
   revision = "0800b94fd42981b439f6a54b0c0cbedd23e58c32"
@@ -187,6 +214,22 @@
   packages = ["."]
   pruneopts = "UT"
   revision = "81af80346b1a01caae0cbc27fd3c1ba5b11e189f"
+
+[[projects]]
+  digest = "1:7c084e0e780596dd2a7e20d25803909a9a43689c153de953520dfbc0b0e51166"
+  name = "github.com/mattn/go-colorable"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "8029fb3788e5a4a9c00e415f586a6d033f5d38b3"
+  version = "v0.1.2"
+
+[[projects]]
+  digest = "1:9b90c7639a41697f3d4ad12d7d67dfacc9a7a4a6e0bbfae4fc72d0da57c28871"
+  name = "github.com/mattn/go-isatty"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "1311e847b0cb909da63b5fecfb5370aa66236465"
+  version = "v0.0.8"
 
 [[projects]]
   digest = "1:33422d238f147d247752996a26574ac48dcf472976eda7f5134015f06bf16563"
@@ -203,6 +246,25 @@
   pruneopts = "UT"
   revision = "4b7aa43c6742a2c18fdef89dd197aaae7dac7ccd"
   version = "1.0.1"
+
+[[projects]]
+  digest = "1:e6deb5269daaf7ab91e3a04a1570d690a60a982d595d090882cee3ded817bb04"
+  name = "github.com/openshift/api"
+  packages = ["route/v1"]
+  pruneopts = "UT"
+  revision = "0d921e363e951d89f583292c60d013c318df64dc"
+  version = "v3.9.0"
+
+[[projects]]
+  digest = "1:bd4946be1f134e0bff597a3438d2c6a435690953d4ebfcce514d898e42c40ea6"
+  name = "github.com/openshift/client-go"
+  packages = [
+    "route/clientset/versioned/scheme",
+    "route/clientset/versioned/typed/route/v1",
+  ]
+  pruneopts = "UT"
+  revision = "1fa528d3be060e4c7178eb69e76d37cf7e699e3c"
+  version = "v3.9.0"
 
 [[projects]]
   branch = "master"
@@ -227,6 +289,14 @@
   pruneopts = "UT"
   revision = "ba968bfe8b2f7e042a574c888954fccecfa385b4"
   version = "v0.8.1"
+
+[[projects]]
+  digest = "1:c1b1102241e7f645bc8e0c22ae352e8f0dc6484b6cb4d132fa9f24174e0119e2"
+  name = "github.com/spf13/pflag"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "298182f68c66c05229eb03ac171abe6e309ee79a"
+  version = "v1.0.3"
 
 [[projects]]
   branch = "master"
@@ -430,7 +500,7 @@
   version = "kubernetes-1.12.6"
 
 [[projects]]
-  digest = "1:907c9e902ff0963fe0b14d7289511be3952d2acfcb7ec36cab3b6ba2374ea58d"
+  digest = "1:c1a099abc91bf21e441d87740b19fa9ef931ff180f11836ce59cab21bcab2b7a"
   name = "k8s.io/client-go"
   packages = [
     "discovery",
@@ -546,8 +616,12 @@
     "plugin/pkg/client/auth/exec",
     "rest",
     "rest/watch",
+    "tools/auth",
     "tools/cache",
+    "tools/clientcmd",
     "tools/clientcmd/api",
+    "tools/clientcmd/api/latest",
+    "tools/clientcmd/api/v1",
     "tools/metrics",
     "tools/pager",
     "tools/reference",
@@ -556,6 +630,7 @@
     "util/cert",
     "util/connrotation",
     "util/flowcontrol",
+    "util/homedir",
     "util/integer",
     "util/retry",
   ]
@@ -567,12 +642,21 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/fatih/color",
+    "github.com/knative/client/pkg/wait",
+    "github.com/knative/pkg/apis",
     "github.com/knative/serving/pkg/apis/serving/v1alpha1",
     "github.com/knative/serving/pkg/apis/serving/v1beta1",
+    "github.com/knative/serving/pkg/client/clientset/versioned/typed/serving/v1alpha1",
+    "github.com/openshift/api/route/v1",
+    "github.com/openshift/client-go/route/clientset/versioned/typed/route/v1",
     "github.com/pkg/errors",
     "k8s.io/api/apps/v1",
     "k8s.io/apimachinery/pkg/apis/meta/v1",
+    "k8s.io/apimachinery/pkg/runtime",
     "k8s.io/apimachinery/pkg/util/yaml",
+    "k8s.io/client-go/kubernetes",
+    "k8s.io/client-go/tools/clientcmd",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
