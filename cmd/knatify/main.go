@@ -45,7 +45,7 @@ func main() {
 	flag.StringVar(&deploymentName, "deployment", "", "")
 	flag.Parse()
 
-	proxyService := "istio-ingressgateway-proxy"
+	proxyServiceName := "istio-ingressgateway-proxy"
 
 	kube := kubernetes.NewForConfigOrDie(clientCfg)
 	serving := serving.NewForConfigOrDie(clientCfg)
@@ -59,11 +59,11 @@ func main() {
 	deployment, err := deployments.Get(deploymentName, metav1.GetOptions{})
 	failIfError(err)
 
-	fmt.Print("Converting deployment to service ... ")
+	fmt.Print("Converting deployment to Knative Service ... ")
 	ksvc, err := conversion.ConvertToService(deployment)
 	failIfError(err)
 
-	fmt.Printf("Creating service '%s' ... ", ksvc.Name)
+	fmt.Printf("Creating Knative Service '%s' ... ", ksvc.Name)
 	_, err = services.Create(ksvc)
 	failIfError(err)
 
@@ -72,15 +72,15 @@ func main() {
 		return apis.Conditions(service.Status.Conditions), nil
 	})
 
-	fmt.Printf("Waiting for service '%s' to become ready ... ", ksvc.Name)
+	fmt.Printf("Waiting for Knative Service '%s' to become ready ... ", ksvc.Name)
 	err = waiter.Wait(ksvc.Name, 10*time.Minute, ioutil.Discard)
 	failIfError(err)
 
-	fmt.Printf("Fetching route '%s' ... ", routeName)
+	fmt.Printf("Fetching Openshift route '%s' ... ", routeName)
 	route, err := routes.Get(routeName, metav1.GetOptions{})
 	failIfError(err)
 
-	fmt.Printf("Cutting over to service ... ")
+	fmt.Printf("Cutting over to Knative Service ... ")
 	for i := 0; i <= 10; i++ {
 		weight := int32(i * 10)
 		oldWeight := 100 - weight
@@ -91,7 +91,7 @@ func main() {
 
 		ksvcBackend := route_v1_api.RouteTargetReference{
 			Kind:   "Service",
-			Name:   proxyService,
+			Name:   proxyServiceName,
 			Weight: &weight,
 		}
 		route.Spec.AlternateBackends = []route_v1_api.RouteTargetReference{ksvcBackend}
