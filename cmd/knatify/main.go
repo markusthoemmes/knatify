@@ -49,10 +49,10 @@ func main() {
 		istioGatewayName string = "istio-ingressgateway"
 	)
 
-	flag.StringVar(&namespace, "namespace", namespaceCfg, "")
-	flag.StringVar(&routeName, "route", "", "")
-	flag.StringVar(&deploymentName, "deployment", "", "")
-	flag.DurationVar(&rolloutTime, "rolloutTime", 30*time.Second, "")
+	flag.StringVar(&namespace, "namespace", namespaceCfg, "the namespace where both deployment and route live in")
+	flag.StringVar(&routeName, "route", "", "the route to use for the roll out")
+	flag.StringVar(&deploymentName, "deployment", "", "the deployment to migrate")
+	flag.DurationVar(&rolloutTime, "rolloutTime", 30*time.Second, "time used to gradually roll out from deployment to Knative Service")
 	flag.Parse()
 
 	kube := kubernetes.NewForConfigOrDie(clientCfg)
