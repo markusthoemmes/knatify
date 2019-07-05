@@ -165,7 +165,7 @@ func main() {
 		if err != nil {
 			break
 		}
-		time.Sleep(10 * time.Second)
+		time.Sleep(2 * time.Second)
 	}
 	failIfError(err)
 
