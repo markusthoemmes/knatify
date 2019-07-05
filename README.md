@@ -45,3 +45,9 @@ The produced output can be piped into `kubectl` for example to create the Knativ
 ```console
 $ cat example.yaml | d2s | kubectl apply -f -
 ```
+
+## Demos
+
+### Gradual rollout of Knative Service without dropping a single request
+
+[![asciicast](https://asciinema.org/a/b2JsBUSBtNg1mzWzRPIjn4VfX.svg)](https://asciinema.org/a/b2JsBUSBtNg1mzWzRPIjn4VfX)
